@@ -1,55 +1,48 @@
-import { useState } from "react";
-import TodoInput from "./TodoInput";
-import TodoList from "./TodoList";
+import React, { useEffect, useState } from 'react';
+import AddItemForm from './AddItemForm'
+import ItemList from "./ItemList";
 import './App.css';
 
-const App = () => {
+function App() {
   /**
-   * useState hook is used to maintain track of the state inside the component - takes a 
-   * state's initial value and returns an array with two values:
-   * the first is a getter function that displays the defined state's current value
-   * the second is a setter function that updates the state
+   * items in a state variable
+   * setter function used to update items
    */
-  const [todos, setTodos] = useState([]);
-  const [todo, setTodo] = useState("");
+  const [items, setItems] = useState([]);
 
-  /**
-   * Important: the state should never be direectly mutated
-   * A copy of the Todos array, using the Array spread operator 
-   * is created before adding todo items to it.
-   */
-  const addTodo = () => {
-    if(todo !== ""){
-      setTodos([...todos, todo]);
-      setTodo("");
-    }
+  const addItem = (item) => {
+    setItems([...items, item]);
+  };
+
+  const removeItem = (itemToBeDeleted) => {
+    setItems(items.filter((item) => itemToBeDeleted !== item));
   };
 
   /**
-   * onClick function triggers when delete button is clicked
-   * filter() - used to construct a new array with all the entries that meet the stated 
-   * criteria.
+   * set todo data to local storage whenever we update items in the Todo list
+   * sets a key-value pair in the local storage with the key being items and
+   * the value being a JSON representation of our items
    */
-  const deleteTodo = (text) => {
-    const newTodos = todos.filter((todo) => {
-      return todo !== text;
-    });
-    setTodos(newTodos);
-  }
 
-  /**
-   * ternary operator - used to display the list items + if list is empty
-   * map()- iterate over the elements in the array and display as <li> inside <ul> element
-   */
+  useEffect(() => {
+    const items = JSON.parse(localStorage.getItem('items'));
+    if (items) {
+      setItems(items);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('items', JSON.stringify(items));
+  }, [items]);
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>React TODO App</h1>
+        <h1>TODO Items</h1>
+        <ItemList items={items} removeItem={removeItem} />
+        <AddItemForm addItem={addItem} />
       </header>
-        <TodoInput todo={todo} setTodo={setTodo} addTodo={addTodo} />
-        <TodoList list={todos} remove={deleteTodo} />
-      </div>
+    </div>
   );
 }
 
