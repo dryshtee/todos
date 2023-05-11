@@ -4,7 +4,7 @@ const Item = ({item, removeItem}) => {
   return (
     <div> 
       <span>{item}</span> 
-      <button onClick={() => removeItem(item)}>X</button>
+      <button className="del-button" onClick={() => removeItem(item)}>X</button>
     </div>
   );
 };
