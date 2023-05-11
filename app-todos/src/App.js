@@ -38,9 +38,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>TODO Items</h1>
-        <ItemList items={items} removeItem={removeItem} />
+        <h1>React TODO App</h1>
         <AddItemForm addItem={addItem} />
+        <ItemList items={items} removeItem={removeItem} />
       </header>
     </div>
   );

@@ -18,7 +18,7 @@ const AddItemForm = ({ addItem }) => {
         <div>
             <form onSubmit={handleSubmit}>
                 <input value={item} onChange={(e) => setItem(e.target.value)} />
-                <button>Add Item</button>
+                <button className="add-button">+</button>
             </form>
         </div>
     );
